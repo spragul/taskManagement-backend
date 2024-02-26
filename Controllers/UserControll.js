@@ -15,17 +15,17 @@ export const signup = async (req, res) => {
       let hashedpassword = await hashpassword(req.body.password);
       req.body.password = hashedpassword;
       let data = await UserModel.create(req.body);
-      res.status(200).send({
+      res.status(200).json({
         userrd: true,
         message: "User Signup Successfull!",
       });
     } else {
-      res.status(400).send({ userrd: false, message: "user alreay Exists" });
+      res.status(400).json({ userrd: false, message: "user alreay Exists" });
     }
   } catch (error) {
     res
       .status(500)
-      .send({ userrd: false, message: `Internal server error.\n\n${error}` });
+      .json({ userrd: false, message: `Internal server error.\n\n${error}` });
     console.log(error);
   }
 };
@@ -54,15 +54,15 @@ export const login = async (req, res) => {
           userrd: true,
         });
       } else {
-        res.status(402).send({ userrd: false, message: "Invalid Credentials" });
+        res.status(402).json({ userrd: false, message: "Invalid Credentials" });
       }
     } else {
-      res.status(400).send({ userrd: false, message: "user does not exists!" });
+      res.status(400).json({ userrd: false, message: "user does not exists!" });
     }
   } catch (error) {
     res
       .status(500)
-      .send({ userrd: false, message: `Internal server error.\n\n${error}` });
+      .json({ userrd: false, message: `Internal server error.\n\n${error}` });
     console.log(error);
   }
 };
@@ -72,7 +72,7 @@ export const forgotpassword = async (req, res) => {
     let user = await UserModel.findOne({ email: req.body.email });
      const timeExpires = "10m";
     if (!user) {
-      res.send({ rd: false, message: "user not exists" });
+      res.json({ rd: false, message: "user not exists" });
     } else {
       const token = await createToken(
         {
@@ -99,9 +99,9 @@ export const forgotpassword = async (req, res) => {
 
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-          res.send({ rd: false, error });
+          res.json({ rd: false, error });
         } else {
-          res.send({ rd: true, message: "mail send " });
+          res.json({ rd: true, message: "mail send " });
         }
       });
     }
@@ -109,7 +109,7 @@ export const forgotpassword = async (req, res) => {
     console.log(error);
     res
       .status(500)
-      .send({ rd: false, message: `Internal server error.\n\n${error}` });
+      .json({ rd: false, message: `Internal server error.\n\n${error}` });
   }
 };
 //resetpassword
@@ -118,7 +118,7 @@ export const resetpassword = async (req, res) => {
   try {
     const olduser = await UserModel.findOne({ _id: id });
     if (!olduser) {
-      res.send({ rd: true, message: "user not exists" });
+      res.status(202).json({ message: "user not exists", rd: false });
     } else {
       const verify = jwt.verify(token, process.env.secretKey);
       const encryptedPassword = await hashpassword(req.body.password);
@@ -132,13 +132,13 @@ export const resetpassword = async (req, res) => {
           },
         }
       );
-      res.status(200).send({
-        rd: true,
+      res.status(200).json({
         message: "password reset",
+        rd: true
       });
     }
   } catch (error) {
     console.log(error);
-    res.send({ rd: false, message: "Something Went Wrong" });
+    res.status(500).json({ message: "Something Went Wrong",rd: false });
   }
 };
