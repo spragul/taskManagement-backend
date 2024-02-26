@@ -70,7 +70,7 @@ export const login = async (req, res) => {
 export const forgotpassword = async (req, res) => {
   try {
     let user = await UserModel.findOne({ email: req.body.email });
-    timeExpires = "10m";
+     const timeExpires = "10m";
     if (!user) {
       res.send({ rd: false, message: "user not exists" });
     } else {
