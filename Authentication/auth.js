@@ -28,7 +28,9 @@ export const validate = async (req, res, next) => {
   if (req.headers.authorization) {
     let token = req.headers.authorization.split(" ")[1];
     let data = await jwt.decode(token);
-    if (Math.floor(+new Date() / 1000) < data.exp) {
+    
+    if (Math.floor(new Date() / 1000) < data.exp) {
+      console.log("exp", data.exp ,"now",Math.floor(new Date() / 1000))
       next();
     } else {
       res.status(401).send({ message: "Token Expired" });

@@ -4,6 +4,7 @@ import express from 'express';
 import userRouter from "./Routers/user.js"
 import taskRoutre from "./Routers/task.js"
 import connectDB from './Dbconfig/Dbconfig.js';
+import bodyParser from "body-parser"
 const app = express()
 //dotenv-package
 import dotenv from "dotenv"
@@ -13,7 +14,7 @@ import cors from "cors"
 import { remindermail } from './Authentication/remindermail.js';
 app.use(cors({ origin: `${process.env.FRONTEND}`}))
 
-app.use(express.json())
+app.use(bodyParser.json())
 //data base
 connectDB();
 //mail send based on corn

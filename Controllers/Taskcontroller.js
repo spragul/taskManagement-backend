@@ -11,7 +11,6 @@ export const createtask = async (req, res) => {
     if (!task) {
       let mytask = await TaskModel.create(req.body);
       let userId = await getuserId(req.headers.authorization);
-      
       if (mytask && userId) {
         //push task id in user account
         let user = await UserModel.findByIdAndUpdate(
