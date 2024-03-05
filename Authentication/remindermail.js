@@ -6,7 +6,7 @@ dotenv.config();
 
 export const remindermail = () => {
   const job = CronJob.from({
-    cronTime: "1 1 * * * *",
+    cronTime: "1 32 * * * *",
     onTick: async function () {
       console.log("working");
       let today=new Date();
