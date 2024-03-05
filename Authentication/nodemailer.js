@@ -6,7 +6,7 @@ export async function sentmymail(val,mymailid) {
   const htmla=`
   <h1>taskname:${val.taskname}</h1>
   <p>Discription:${val.discription}</p>
-  <p>Setails:${val.details}</p>
+  <p>Details:${val.details}</p>
   <p>Starting Date:${val.startingdate}</p>
   <p>Ending Date:${val.endingdate}</p>
   <p>Taskcompletion:${val.taskcompletion}</p>
