@@ -1,5 +1,5 @@
-import nodemailer from "nodemailer"
-import jwt from "jsonwebtoken"
+import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
 import {
   hashpassword,
   hashCompare,
@@ -35,11 +35,11 @@ export const login = async (req, res) => {
   try {
     let user = await UserModel.findOne({ email: req.body.email });
     if (user) {
-    let timeExpires = "2h";
+      let timeExpires = "2h";
       if (await hashCompare(req.body.password, user.password)) {
         let token = await createToken(
           {
-            _id:user._id,
+            _id: user._id,
             name: user.name,
             email: user.email,
           },
@@ -71,7 +71,7 @@ export const forgotpassword = async (req, res) => {
   try {
     let user = await UserModel.findOne({ email: req.body.email });
     console.log(user);
-     const timeExpires = "10m";
+    const timeExpires = "10m";
     if (!user) {
       res.json({ rd: false, message: "user not exists" });
     } else {
@@ -135,11 +135,11 @@ export const resetpassword = async (req, res) => {
       );
       res.status(200).json({
         message: "password reset",
-        rd: true
+        rd: true,
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something Went Wrong",rd: false });
+    res.status(500).json({ message: "Something Went Wrong", rd: false });
   }
 };

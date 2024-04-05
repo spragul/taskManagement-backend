@@ -2,10 +2,8 @@ import { getuserId } from "../Authentication/auth.js";
 import TaskModel from "../Model/Task-Schema.js";
 import UserModel from "../Model/userSchemas.js";
 
-
 //create a task
 export const createtask = async (req, res) => {
-
   try {
     let task = await TaskModel.findOne({ taskname: req.body.taskname });
     if (!task) {
@@ -15,17 +13,17 @@ export const createtask = async (req, res) => {
         //push task id in user account
         let user = await UserModel.findByIdAndUpdate(
           {
-            _id: userId
+            _id: userId,
           },
           {
             $push: { tasklist: mytask._id },
           }
         );
-    
-       //set usermailid into task
+
+        //set usermailid into task
         let task1 = await TaskModel.findByIdAndUpdate(
           {
-            _id: mytask._id
+            _id: mytask._id,
           },
           {
             $set: { email: user.email },
@@ -49,8 +47,11 @@ export const createtask = async (req, res) => {
 export const getalltask = async (req, res) => {
   try {
     let userId = await getuserId(req.headers.authorization);
-    const tasklist = await UserModel.findOne({_id: userId},{tasklist:1});
-    const task = await TaskModel.find({_id: { $in: tasklist.tasklist }},{email:0});
+    const tasklist = await UserModel.findOne({ _id: userId }, { tasklist: 1 });
+    const task = await TaskModel.find(
+      { _id: { $in: tasklist.tasklist } },
+      { email: 0 }
+    );
     if (task) {
       res.status(200).json({ message: "Get All tasks", task, rd: true });
     } else {
@@ -86,7 +87,10 @@ export const deletetask = async (req, res) => {
     const task = await TaskModel.findOne({ _id: req.params.id });
     let userId = await getuserId(req.headers.authorization);
     if (task && userId) {
-      let user =await UserModel.findOneAndUpdate({_id:userId},{$pullAll:{tasklist:[task._id]}})
+      let user = await UserModel.findOneAndUpdate(
+        { _id: userId },
+        { $pullAll: { tasklist: [task._id] } }
+      );
       let del = await TaskModel.deleteOne({ _id: task._id });
       res
         .status(200)
