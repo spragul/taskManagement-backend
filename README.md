@@ -3,5 +3,5 @@ Frontend Deploy Url: https://taskmanagement-123.netlify.app/login<br/>
 Frontend Source Code: https://github.com/spragul/taskfrontend<br/>
 Backend deploy Url: https://taskmanagement-alr0.onrender.com/<br/>
 <hr/>
-Users can create tasks and input details such as the starting date, ending date, and task description. Based on the task's end date, an email reminder will be sent one day prior and one hour before the deadline automatically by this app. If the task is completed before the ending date, you will not receive any emails.
+Users can create tasks and input details such as the start date, end date, and task description. Based on the task's end date, the app will automatically send email reminders one day prior and one hour before the deadline. If the task is completed before the end date, no emails will be sent.
 <hr/>
